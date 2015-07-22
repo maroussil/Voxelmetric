@@ -4,16 +4,26 @@ using System.Collections;
 public class CubeDefinition : BlockDefinition
 {
     public string blockName;
-    public Vector2[] textures = new Vector2[6];
+    public string[] textures = new string[6];
 
     public bool blockIsSolid = true;
+    public bool solidTowardsSameType = true;
 
     public override BlockController Controller()
     {
         BlockCube controller = new BlockCube();
         controller.blockName = blockName;
         controller.isSolid = blockIsSolid;
-        controller.textures = textures;
+        controller.solidTowardsSameType = solidTowardsSameType;
+
+        TextureCollection[] textureCoordinates = new TextureCollection[6];
+
+        for (int i = 0; i < 6; i++)
+        {
+            textureCoordinates[i] = Block.index.textureIndex.GetTextureCollection(textures[i]);
+        }
+
+        controller.textures = textureCoordinates;
 
         return controller;
     }

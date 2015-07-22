@@ -7,6 +7,8 @@ public class CustomMesh : BlockController {
     public int[] tris = new int[0];
     public Vector2[] uvs = new Vector2[0];
 
+    public TextureCollection collection;
+
     public string blockName;
 
     public override string Name()
@@ -41,9 +43,16 @@ public class CustomMesh : BlockController {
 
         if (uvs.Length != 0)
         {
+            Rect texture;
+            if (collection != null)
+                texture = collection.GetTexture(chunk, pos, Direction.down);
+            else
+                texture = new Rect();
+
+
             foreach (var uv in uvs)
             {
-                meshData.uv.Add(uv);
+                meshData.uv.Add(new Vector2((uv.x * texture.width) + texture.x, (uv.y * texture.height) + texture.y));
             }
         }
 
